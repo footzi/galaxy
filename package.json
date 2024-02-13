@@ -1,0 +1,20 @@
+{
+  "name": "galaxy",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "file-fairy": "^1.1.1",
+    "prettier": "^3.2.5",
+    "vite": "^5.1.0"
+  },
+  "dependencies": {
+    "pixi.js": "^7.4.0"
+  }
+}

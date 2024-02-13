@@ -1,0 +1,9 @@
+{
+  "alias": "c",
+  "files": [
+    {
+      "template": "component.hbs",
+      "fileName": "index.js"
+    }
+  ]
+}
