@@ -18,13 +18,13 @@ const OPTIONS = {
     color: 'yellow',
     offsetX: 5,
     offsetY: 10,
-    step: 10,
+    velocity: 1.5,
   },
   bullet: {
     color: 'white',
     width: 5,
     height: 10,
-    velocity: 2,
+    velocity: 1.7,
   },
   enemy: {
     enemiesOffsetY: 100,

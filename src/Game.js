@@ -35,38 +35,13 @@ export class Game {
 
     this.playerMoveEvent();
     this.playerFireEvent();
-
-    // const testBullet = {
-    //   coords: {
-    //     x: 200,
-    //     y: 410,
-    //   },
-    //   options: {
-    //     width: 5,
-    //     height: 10,
-    //   },
-    // };
-    //
-    // const testEnemy = {
-    //   coords: {
-    //     x: 190,
-    //     y: 420,
-    //   },
-    //   options: {
-    //     width: 20,
-    //     height: 20,
-    //   },
-    // };
-    //
-    // const t = getIsCollision(testBullet, testEnemy);
-    //
-    // console.log(t);
   }
 
   update() {
     this.bullets.update();
 
     this.checkEnemyKill();
+    this.keyPressCtrl.update();
   }
 
   getApp() {
@@ -80,6 +55,8 @@ export class Game {
   playerMoveEvent() {
     this.keyPressCtrl.add('onLeft', () => this.player.left());
     this.keyPressCtrl.add('onRight', () => this.player.right());
+    this.keyPressCtrl.add('onUp', () => this.player.up());
+    this.keyPressCtrl.add('onDown', () => this.player.down());
   }
 
   playerFireEvent() {
@@ -92,7 +69,7 @@ export class Game {
       this.bullets.fire({ x, y });
     };
 
-    this.keyPressCtrl.add('onSpace', fire);
+    this.keyPressCtrl.add('onSpace', fire, true);
   }
 
   checkEnemyKill() {
@@ -121,39 +98,52 @@ class KeyPressCtrl {
     document.addEventListener('keydown', (event) => {
       const { code } = event;
 
-      this.keys[code] = true;
-      this.handleKeyDown();
+      this.keys[code] = {
+        ...this.keys[code],
+        pressed: true,
+      };
+
+      this.callImmediately();
     });
 
     document.addEventListener('keyup', (event) => {
       const { code } = event;
 
-      this.keys[code] = false;
-      this.handleKeyUp();
+      this.keys[code] = {
+        ...this.keys[code],
+        pressed: false,
+      };
     });
   }
 
-  handleKeyDown() {
-    if (this.keys['Space']) {
-      this.callbacks['onSpace']?.();
-    }
+  update() {
+    const call = (key, cb) => {
+      if (this.keys[key]?.pressed) {
+        if (!this.callbacks[cb]?.isImmediately) {
+          this.callbacks[cb].fn();
+        }
+      }
+    };
 
-    if (this.keys['ArrowLeft']) {
-      this.callbacks['onLeft']?.();
-    }
-
-    if (this.keys['ArrowRight']) {
-      this.callbacks['onRight']?.();
-    }
+    call('ArrowLeft', 'onLeft');
+    call('ArrowRight', 'onRight');
+    call('ArrowUp', 'onUp');
+    call('ArrowDown', 'onDown');
   }
 
-  handleKeyUp() {
-    // if (!this.keys['Space']) {
-    //   this.callbacks['onSpaceUp']?.();
-    // }
+  callImmediately() {
+    const call = (key, cb) => {
+      if (this.keys[key]?.pressed) {
+        if (this.callbacks[cb]?.isImmediately) {
+          this.callbacks[cb].fn();
+        }
+      }
+    };
+
+    call('Space', 'onSpace');
   }
 
-  add(name, fn) {
-    this.callbacks[name] = fn;
+  add(name, fn, isImmediately = false) {
+    this.callbacks[name] = { fn, isImmediately };
   }
 }
