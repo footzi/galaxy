@@ -3,8 +3,10 @@ import { Game } from './Game.js';
 const LEVELS = [
   {
     enemies: {
-      lines: 3,
-      maxInLine: 5,
+      // lines: 3,
+      lines: 1,
+      maxInLine: 1,
+      // maxInLine: 5,
     },
   },
 ];
@@ -32,7 +34,14 @@ const OPTIONS = {
     height: 20,
     offsetBetween: 10,
     color: 'red',
+    velocity: 1,
   },
 };
 
 new Game(OPTIONS, LEVELS).init();
+
+const l = '|a|a|a|a|a' + '|0|a|a|a|0' + '|0|0|b|0|0';
+
+// linear -
+// circle
+const enemiesMovingDirection = [];

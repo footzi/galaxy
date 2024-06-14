@@ -15,6 +15,7 @@
     "vite": "^5.1.0"
   },
   "dependencies": {
+    "bezier": "^0.1.0",
     "pixi.js": "^7.4.0"
   }
 }

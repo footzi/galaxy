@@ -30,6 +30,7 @@ export class Game {
 
     this.player.init();
     this.enemies.init(this.level.enemies);
+    this.enemies.startMoving();
 
     this.app.ticker.add(this.update, this);
 
@@ -39,6 +40,7 @@ export class Game {
 
   update() {
     this.bullets.update();
+    this.enemies.update();
 
     this.checkEnemyKill();
     this.keyPressCtrl.update();
